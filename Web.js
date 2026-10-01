@@ -1,37 +1,116 @@
-const menu = document.querySelector(".menu"),
-  toggle = document.querySelector(".menu-toggle"),
-  links = [...document.querySelectorAll('.menu a[href^="#"]')],
-  sections = [...document.querySelectorAll("main section[id]")];
-toggle.addEventListener("click", () => {
-  const open = menu.classList.toggle("open");
-  toggle.setAttribute("aria-expanded", open);
-});
-links.forEach((a) =>
-  a.addEventListener("click", () => menu.classList.remove("open")),
-);
-const reveal = new IntersectionObserver(
-  (entries) =>
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add("visible");
-      e.target
-        .querySelectorAll("[data-level]")
-        .forEach(
-          (c) => (c.querySelector("u").style.width = c.dataset.level + "%"),
+(() => {
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const heading = document.getElementById("hero-heading");
+  if (!heading) return;
+  heading.querySelectorAll(".heading-line").forEach((line) => {
+    const words = line.textContent.trim().split(/\s+/);
+    line.textContent = "";
+    line.setAttribute("aria-hidden", "true");
+    words.forEach((text, index) => {
+      const word = document.createElement("span");
+      word.className = "word";
+      word.textContent = text;
+      line.appendChild(word);
+      if (index < words.length - 1)
+        line.appendChild(document.createTextNode(" "));
+    });
+  });
+  if (reducedMotion) return;
+  document.body.classList.add("animate");
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      heading.querySelectorAll(".word").forEach((word, index) => {
+        setTimeout(
+          () => word.classList.add("is-visible"),
+          100 + index * 120,
         );
-      reveal.unobserve(e.target);
-    }),
-  { threshold: 0.12 },
-);
-document.querySelectorAll(".reveal").forEach((el) => reveal.observe(el));
-const spy = new IntersectionObserver(
-  (entries) =>
-    entries.forEach((e) => {
-      if (e.isIntersecting)
-        links.forEach((a) =>
-          a.classList.toggle("active", a.hash === "#" + e.target.id),
+      });
+      document.querySelectorAll(".load-item").forEach((item, index) => {
+        setTimeout(
+          () => item.classList.add("is-visible"),
+          300 + index * 140,
         );
+      });
     }),
-  { rootMargin: "-35% 0px -55%" },
-);
-sections.forEach((s) => spy.observe(s));
+  );
+})();
+
+(() => {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const elements = document.querySelectorAll(".reveal");
+  const show = (el) => {
+    el.classList.add("visible");
+    el.querySelectorAll("[data-level]").forEach((item) => {
+      const bar = item.querySelector("u");
+      if (bar) bar.style.width = item.dataset.level + "%";
+    });
+  };
+  if (reduced || !("IntersectionObserver" in window)) {
+    elements.forEach(show);
+    return;
+  }
+  document.body.classList.add("js-reveal");
+  const observer = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          show(entry.target);
+          observer.unobserve(entry.target);
+        }
+      }),
+    { threshold: 0.12 },
+  );
+  elements.forEach((el) => observer.observe(el));
+})();
+
+
+// Honor motion preferences, visibility and autoplay restrictions.
+(() => {
+  const video = document.querySelector('.background-video');
+  const hero = document.querySelector('.hero-frame');
+  if (!video || !hero) return;
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  let inView = true;
+  const sync = () => {
+    if (preference.matches) {
+      video.pause();
+      // Reload restores the poster instead of leaving a partially lit frame.
+      if (video.dataset.motion !== 'reduced') video.load();
+      video.dataset.motion = 'reduced';
+      return;
+    }
+    video.dataset.motion = 'enabled';
+    if (document.hidden || !inView) { video.pause(); return; }
+    const attempt = video.play();
+    if (attempt) attempt.catch(() => { /* The poster remains visible. */ });
+  };
+  preference.addEventListener('change', sync);
+  document.addEventListener('visibilitychange', sync);
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      inView = entries[0].isIntersecting;
+      sync();
+    });
+    observer.observe(hero);
+  }
+  sync();
+})();
+
+
+// Keep the fixed header offset accurate when navigation wraps or fonts load.
+(() => {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  const measure = () => {
+    document.documentElement.style.setProperty('--header-height', `${Math.ceil(header.getBoundingClientRect().height)}px`);
+  };
+  const updateBackground = () => header.classList.toggle('is-scrolled', window.scrollY > 24);
+  measure();
+  updateBackground();
+  window.addEventListener('scroll', updateBackground, { passive: true });
+  window.addEventListener('resize', measure, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(header);
+  if (document.fonts) document.fonts.ready.then(measure);
+})();

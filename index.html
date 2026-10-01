@@ -1,342 +1,391 @@
 <!doctype html>
 <html lang="ko">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="프론트엔드 개발자 김기윤 포트폴리오">
-    <link rel="stylesheet" href="Web.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#151716" />
+    <meta
+      name="description"
+      content="사용자 경험을 고민하고 가치를 만드는 프론트엔드 개발자 김기윤의 포트폴리오"
+    />
     <title>김기윤 | Frontend Developer</title>
-</head>
-
-<body>
-    <header id="header">
-        <a class="logo" href="#home">KD</a>
-        <button class="menu-toggle" aria-label="메뉴 열기"
-            aria-expanded="false"><i></i><i></i>
-        </button>
-        <nav class="menu">
-            <a href="#home">Home</a>
-            <a href="#profile">Profile</a>
-            <a href="#skill">Skill</a>
-            <a href="#project">Project</a>
-            <a class="contact" href="mailto:kimkiyun@email.com">Contact Me</a>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+    />
+    <link rel="stylesheet" href="Web.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">본문으로 바로가기</a>
+      <header class="site-header">
+        <a
+          href="#home"
+          class="text-2xl font-medium tracking-tight text-white no-underline"
+          aria-label="김기윤 홈"
+          >Kiyun Kim</a
+        >
+        <nav class="navigation" aria-label="주요 메뉴">
+          <a href="#profile">Profile</a>
+          <a href="#skill">Skills</a>
+          <a href="#content">Approach</a>
+          <a href="#project">Projects</a>
         </nav>
-    </header>
-    <main>
-        <section class="hero hero-coded" id="home">
-            <div class="hero-glow" aria-hidden="true"></div>
-            <div class="hero-copy">
-                <p class="hero-kicker">FRONTEND DEVELOPER</p>
-                <h1>Developing<br>Better <span>Experiences</span></h1>
-                <p class="hero-description">사용자 경험을 고민하고, 가치를 만드는 프론트엔드 개발자 <strong>김기윤</strong>입니다.</p>
-                <div class="hero-tech" aria-label="주요 기술">
-                    <i class="devicon-react-original colored" title="React"></i>
-                    <i class="devicon-typescript-plain colored" title="TypeScript"></i>
-                    <i class="devicon-tailwindcss-original colored" title="Tailwind CSS"></i>
-                    <i class="devicon-javascript-plain colored" title="JavaScript"></i>
-                    <i class="devicon-html5-plain colored" title="HTML5"></i>
-                    <i class="devicon-css3-plain colored" title="CSS3"></i>
-                </div>
-                <div class="hero-monogram" aria-hidden="true">KD</div>
-                <a class="hero-scroll" href="#profile">SCROLL DOWN<span></span></a>
+        <a
+          href="mailto:159pko@naver.com"
+          class="header-action pill bg-white text-black px-6 hover:bg-gray-100"
+          >Chat with us</a
+        >
+      </header>
+    <div class="page">
+      <main id="main-content">
+      <div class="hero-frame" id="home">
+      <video
+        poster="media/kiyun-studio-poster.png"
+        class="background-video"
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <source
+          src="media/kiyun-studio-knight-rider-mint.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div class="video-shade" aria-hidden="true"></div>
+
+        <div class="landing-main">
+          <section aria-labelledby="hero-heading">
+            <p
+              class="load-item text-white text-xs font-normal tracking-wide m-0"
+            >
+              | Frontend Developer
+            </p>
+            <h1 id="hero-heading" aria-label="Developing Better Experiences">
+              <span class="heading-line">Developing</span>
+              <span class="heading-line">Better</span>
+              <span class="heading-line">Experiences</span>
+            </h1>
+            <p class="load-item intro-description">
+              사용자 경험을 고민하고, 가치를 만드는<br />프론트엔드 개발자
+              <strong>김기윤</strong>입니다.
+            </p>
+            <div class="load-item flex flex-row items-center gap-3 mt-8">
+              <a
+                href="mailto:159pko@naver.com"
+                class="pill bg-white text-black pl-5 pr-2 gap-5 hover:bg-gray-100"
+              >
+                Chat With Us
+                <span
+                  class="flex items-center justify-center rounded-full bg-black text-white w-7 h-7"
+                  aria-hidden="true"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  >
+                    <path d="M5 12h14m-6-6 6 6-6 6" />
+                  </svg>
+                </span>
+              </a>
+              <a
+                href="#project"
+                class="pill text-white border border-white/30 bg-white/5 backdrop-blur-md px-6 hover:bg-white/15"
+                >My Works</a
+              >
             </div>
-
-            <div class="hero-workspace" aria-label="웹 애플리케이션 작업 화면 예시">
-                <article class="mock-window dashboard-window">
-                    <div class="mock-top"><b>KD</b><span>⌕ 검색</span><i>○</i><i>○</i></div>
-                    <div class="dash-layout">
-                        <aside><strong>⌂ 대시보드</strong><span>◉ 채팅</span><span>□ 파일</span><span>⌁ 메일</span><span>⚙ 설정</span></aside>
-                        <div class="dash-content">
-                            <h3>안녕하세요, 김기윤님! 👋</h3><small>오늘도 좋은 하루 보내세요!</small>
-                            <div class="dash-stats"><div><em>완료</em><b>12</b></div><div><em>할 일</em><b>24</b></div><div><em>읽지 않음</em><b>7</b></div></div>
-                            <div class="dash-columns">
-                                <div><strong>최근 채팅</strong><p>이주은 <small>오후 2:30</small></p><p>박서연 <small>오후 1:10</small></p><p>김한태 <small>오전 11:45</small></p></div>
-                                <div><strong>최근 파일</strong><p>포트폴리오_최종.pdf</p><p>프로젝트_기획서.docx</p><p>이미지_자료.zip</p></div>
-                                <div><strong>최근 메일</strong><p>프로젝트 회의 안내</p><p>포트폴리오 피드백</p><p>환영 메일 공유</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="mock-window chat-window">
-                    <div class="panel-title">Chat <span>— ×</span></div>
-                    <div class="chat-body"><aside><b>이주은</b><span>박서연</span><span>김한태</span><span>최유림</span></aside><div><p>안녕하세요!</p><p>프로젝트 관련 파일 공유드립니다.</p><p class="file-chip">▣ 포트폴리오_최종.pdf</p><p class="my-message">감사합니다! 확인해볼게요.</p></div></div>
-                </article>
-
-                <article class="mock-window files-window">
-                    <div class="panel-title">Files <span>⌕ 파일 검색</span></div>
-                    <div class="files-body"><aside><b>▰ 전체 파일</b><span>□ 문서</span><span>□ 이미지</span><span>□ 압축파일</span></aside><div><p>📁 프로젝트 <small>2024.06.01</small></p><p>📁 디자인 <small>2024.05.28</small></p><p>📄 회의록.docx <small>1.3MB</small></p><p>🖼 UI_Design.png <small>2.7MB</small></p><p>▣ 프로젝트_자료.zip <small>12.5MB</small></p></div></div>
-                </article>
-
-                <article class="mock-window mail-window">
-                    <div class="panel-title">Mail</div>
-                    <div class="mail-body"><aside><b>새 메일 작성</b><span>받은 메일</span><span>보낸 메일</span><span>임시 보관함</span></aside><div><p>□ 프로젝트 회의 안내 <small>오후 2:30 ★</small></p><p>□ 포트폴리오 피드백 <small>오후 1:45 ★</small></p><p>□ 협업 일정 공유 <small>오전 11:30 ★</small></p><p>□ 개발 일정 업데이트 <small>어제 ★</small></p></div></div>
-                </article>
-            </div>
-        </section>
+          </section>
+        </div>
+      </div>
         <section class="section profile" id="profile">
-            <div class="shell profile-grid">
-                <div class="heading reveal">
-                    <p class="eyebrow">PROFILE</p>
-                    <h2>About Me</h2>
-                    <h3>사용자 경험을 고민하는<br>프론트엔드 개발자</h3>
-                    <p>웹 기술을 통해 문제를 해결하고 사용자에게 더 나은 경험을 제공하는 것을 목표로 끊임없이 학습하고 성장하고 있습니다.</p>
-                    <a class="button" href="#project">프로젝트 보기 ↗</a>
-                </div>
-                <div class="profile-card reveal">
-                    <div class="portrait">
-                        <img src="img/profill.png" alt="">
-                    </div>
-                    <div class="info">
-                        <p class="label">Personal Info</p>
-                        <dl>
-                            <div>
-                                <dt>이름</dt>
-                                <dd>김기윤</dd>
-                            </div>
-                            <div>
-                                <dt>생년월일</dt>
-                                <dd>1997. 04. 23</dd>
-                            </div>
-                            <div>
-                                <dt>위치</dt>
-                                <dd>인천광역시, 대한민국</dd>
-                            </div>
-                            <div>
-                                <dt>이메일</dt>
-                                <dd>159pko@naver.com</dd>
-                            </div>
-                            <div>
-                                <dt>연락처</dt>
-                                <dd>010-4913-1389</dd>
-                            </div>
-                        </dl>
-                    </div>
-                    <div class="history">
-                        <p class="label">Education</p>
-                        <b>한국폴리텍 인천캠퍼스</b>
-                        <span>정보통신과</span>
-                        <small>2016.03 – 2018.02</small>
-                    </div>
-                    <div class="history experience">
-                        <p class="label">Experience</p>
-                        <b>프론트엔드 개발 · 개인 프로젝트</b>
-                        <small>2022.09 – ing(진행중)</small>
-                        <b>웹퍼블리셔 · 프리랜서</b>
-                        <small>2020.01 – ing(진행중)</small>
-                    </div>
-                </div>
+          <div class="shell profile-grid">
+            <div class="heading reveal">
+              <p class="eyebrow">PROFILE</p>
+              <h2>About Me</h2>
+              <h3>사용자 경험을 고민하는<br />프론트엔드 개발자</h3>
+              <p>
+                웹 기술을 통해 문제를 해결하고 사용자에게 더 나은 경험을
+                제공하는 것을 목표로 끊임없이 학습하고 성장하고 있습니다.
+              </p>
+              <a class="button" href="#project">프로젝트 보기 ↗</a>
             </div>
+            <div class="profile-card reveal">
+              <div class="info">
+                <p class="label">Personal Info</p>
+                <dl>
+                  <div>
+                    <dt>이름</dt>
+                    <dd>김기윤</dd>
+                  </div>
+                  <div>
+                    <dt>생년월일</dt>
+                    <dd>1997. 04. 23</dd>
+                  </div>
+                  <div>
+                    <dt>위치</dt>
+                    <dd>인천광역시, 대한민국</dd>
+                  </div>
+                  <div>
+                    <dt>이메일</dt>
+                    <dd><a href="mailto:159pko@naver.com">159pko@naver.com</a></dd>
+                  </div>
+                  <div>
+                    <dt>연락처</dt>
+                    <dd><a href="tel:+821049131389">010-4913-1389</a></dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="history">
+                <p class="label">Education</p>
+                <b>한국폴리텍 인천캠퍼스</b>
+                <span>정보통신과</span>
+                <small>2016.03 – 2018.02</small>
+              </div>
+              <div class="history experience">
+                <p class="label">Experience</p>
+                <b>프론트엔드 개발 · 개인 프로젝트</b>
+                <small>2022.09 – ing(진행중)</small>
+                <b>웹퍼블리셔 · 프리랜서</b>
+                <small>2020.01 – ing(진행중)</small>
+              </div>
+            </div>
+          </div>
         </section>
         <section class="section skills" id="skill">
-            <div class="shell skill-layout">
-                <aside class="skill-intro reveal">
-                    <div>
-                        <p class="eyebrow">MY SKILLS</p>
-                        <h2>Skills &amp;<br><em>Technologies</em></h2>
-                        <p>다양한 기술 스택을 활용해 사용자 경험을 고민하고, 효율적인 웹 서비스를 개발합니다.</p>
-                    </div>
-                    <div class="learning"><strong>&lt;/&gt;</strong>
-                        <h3>Always Learning</h3>
-                        <p>새로운 기술을 빠르게 학습하고 프로젝트에 적용하며 더 나은 개발자로 성장하고 있습니다.</p>
-                    </div>
-                </aside>
-                <div class="skill-list reveal">
-                    <div class="group">
-                        <h3>프론트엔드</h3>
-                        <div class="skill-grid">
-                            <article data-level="90">
-                                <i class="devicon-react-original colored"></i>
-                                    <b>React</b>
-                                    <em>90%</em>
-                                    <span><u></u></span>
-                            </article>
-                            <article data-level="85">
-                                <i class="devicon-typescript-plain colored"></i>
-                                    <b>TypeScript</b>
-                                    <em>85%</em>
-                                    <span><u></u></span>
-                            </article>
-                            <article data-level="90">
-                                <i class="devicon-javascript-plain colored"></i>
-                                <b>JavaScript</b>
-                                <em>90%</em>
-                                <span><u></u></span>
-                            </article>
-                            <article data-level="95">
-                                <i class="devicon-html5-plain colored"></i>
-                                <b>HTML5</b>
-                                <em>95%</em>
-                                <span><u></u></span>
-                            </article>
-                            <article data-level="90">
-                                <i class="devicon-css3-plain colored"></i>
-                                <b>CSS3</b>
-                                <em>90%</em>
-                                <span><u></u></span>
-                            </article>
-                            <article data-level="85">
-                                <i class="devicon-tailwindcss-original colored"></i>
-                                <b>Tailwind</b>
-                                <em>85%</em>
-                                <span><u></u></span>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="group">
-                        <h3>백엔드 &amp; 데이터베이스</h3>
-                        <div class="skill-grid compact">
-                            <article data-level="80">
-                                <i class="devicon-nodejs-plain colored"></i><b>Node.js</b><em>80%</em><span><u></u></span>
-                            </article>
-                            <article data-level="80">
-                                <i class="devicon-express-original"></i><b>Express</b><em>80%</em><span><u></u></span>
-                            </article>
-                            <article data-level="75">
-                                <i class="devicon-postgresql-plain colored"></i><b>PostgreSQL</b><em>75%</em><span><u></u></span>
-                            </article>
-                            <article data-level="70">
-                                <i class="devicon-mongodb-plain colored"></i><b>MongoDB</b><em>70%</em><span><u></u></span>
-                            </article>
-                            <article data-level="75">
-                                <i class="devicon-firebase-plain colored"></i><b>Firebase</b><em>75%</em><span><u></u></span>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="group">
-                        <h3>기타 도구</h3>
-                        <div class="skill-grid compact">
-                            <article data-level="85">
-                                <i class="devicon-git-plain colored"></i>
-                                <b>Git</b><em>85%</em><span><u></u></span>
-                            </article>
-                            <article data-level="85">
-                                <i class="devicon-github-original"></i>
-                                <b>GitHub</b><em>85%</em><span><u></u></span>
-                            </article>
-                            <article data-level="90">
-                                <i class="devicon-vscode-plain colored"></i>
-                                <b>VS Code</b><em>90%</em><span><u></u></span></article>
-                            <article data-level="80">
-                                <i class="devicon-figma-plain colored"></i>
-                                <b>Figma</b><em>80%</em><span><u></u></span>
-                            </article>
-                            <article data-level="70">
-                                <i class="devicon-photoshop-plain colored"></i>
-                                <b>PhotoShop</b><em>70%</em><span><u></u></span>
-                            </article>
-                        </div>
-                    </div>
+          <div class="shell skill-layout">
+            <aside class="skill-intro reveal">
+              <div>
+                <p class="eyebrow">MY SKILLS</p>
+                <h2>Skills &amp;<br /><em>Technologies</em></h2>
+                <p>
+                  다양한 기술 스택을 활용해 사용자 경험을 고민하고, 효율적인 웹
+                  서비스를 개발합니다.
+                </p>
+              </div>
+              <div class="learning">
+                <strong>&lt;/&gt;</strong>
+                <h3>Always Learning</h3>
+                <p>
+                  새로운 기술을 빠르게 학습하고 프로젝트에 적용하며 더 나은
+                  개발자로 성장하고 있습니다.
+                </p>
+              </div>
+            </aside>
+            <div class="skill-list reveal">
+              <div class="group">
+                <h3>프론트엔드</h3>
+                <div class="skill-grid">
+                  <article data-level="90">
+                    <i class="devicon-react-original colored"></i>
+                    <b>React</b>
+                    <em>90%</em>
+                    <span><u></u></span>
+                  </article>
+                  <article data-level="85">
+                    <i class="devicon-typescript-plain colored"></i>
+                    <b>TypeScript</b>
+                    <em>85%</em>
+                    <span><u></u></span>
+                  </article>
+                  <article data-level="90">
+                    <i class="devicon-javascript-plain colored"></i>
+                    <b>JavaScript</b>
+                    <em>90%</em>
+                    <span><u></u></span>
+                  </article>
+                  <article data-level="95">
+                    <i class="devicon-html5-plain colored"></i>
+                    <b>HTML5</b>
+                    <em>95%</em>
+                    <span><u></u></span>
+                  </article>
+                  <article data-level="90">
+                    <i class="devicon-css3-plain colored"></i>
+                    <b>CSS3</b>
+                    <em>90%</em>
+                    <span><u></u></span>
+                  </article>
+                  <article data-level="85">
+                    <i class="devicon-tailwindcss-original colored"></i>
+                    <b>Tailwind</b>
+                    <em>85%</em>
+                    <span><u></u></span>
+                  </article>
                 </div>
+              </div>
+              <div class="group">
+                <h3>백엔드 &amp; 데이터베이스</h3>
+                <div class="skill-grid compact">
+                  <article data-level="80">
+                    <i class="devicon-nodejs-plain colored"></i><b>Node.js</b
+                    ><em>80%</em><span><u></u></span>
+                  </article>
+                  <article data-level="80">
+                    <i class="devicon-express-original"></i><b>Express</b
+                    ><em>80%</em><span><u></u></span>
+                  </article>
+                  <article data-level="75">
+                    <i class="devicon-postgresql-plain colored"></i
+                    ><b>PostgreSQL</b><em>75%</em><span><u></u></span>
+                  </article>
+                  <article data-level="70">
+                    <i class="devicon-mongodb-plain colored"></i><b>MongoDB</b
+                    ><em>70%</em><span><u></u></span>
+                  </article>
+                  <article data-level="75">
+                    <i class="devicon-firebase-plain colored"></i><b>Firebase</b
+                    ><em>75%</em><span><u></u></span>
+                  </article>
+                </div>
+              </div>
+              <div class="group">
+                <h3>기타 도구</h3>
+                <div class="skill-grid compact">
+                  <article data-level="85">
+                    <i class="devicon-git-plain colored"></i>
+                    <b>Git</b><em>85%</em><span><u></u></span>
+                  </article>
+                  <article data-level="85">
+                    <i class="devicon-github-original"></i>
+                    <b>GitHub</b><em>85%</em><span><u></u></span>
+                  </article>
+                  <article data-level="90">
+                    <i class="devicon-vscode-plain colored"></i>
+                    <b>VS Code</b><em>90%</em><span><u></u></span>
+                  </article>
+                  <article data-level="80">
+                    <i class="devicon-figma-plain colored"></i>
+                    <b>Figma</b><em>80%</em><span><u></u></span>
+                  </article>
+                  <article data-level="70">
+                    <i class="devicon-photoshop-plain colored"></i>
+                    <b>PhotoShop</b><em>70%</em><span><u></u></span>
+                  </article>
+                </div>
+              </div>
             </div>
-            <div class="shell stats reveal">
-                <div><b>10+</b><span>프로젝트 경험</span></div>
-                <div><b>3+</b><span>개인 프로젝트</span></div>
-                <div><b>500+</b><span>GitHub 커밋</span></div>
-                <div><b>1,000+</b><span>학습 시간</span></div>
-            </div>
+          </div>
+          <div class="shell stats reveal">
+            <div><b>10+</b><span>프로젝트 경험</span></div>
+            <div><b>3+</b><span>개인 프로젝트</span></div>
+            <div><b>500+</b><span>GitHub 커밋</span></div>
+            <div><b>1,000+</b><span>학습 시간</span></div>
+          </div>
         </section>
         <section class="section approach" id="content">
-            <div class="shell reveal">
-                <p class="eyebrow">CONTENT</p>
-                <h2>My Approach</h2>
-                <h3>개발에 임하는 방식과 중요하게 생각하는 가치</h3>
-                <p class="lead">사용자의 입장에서 생각하고, 기술로 가치를 만들어 더 나은 웹 경험을 제공하기 위해 노력합니다.</p>
-                <div class="values">
-                    <article>
-                        <i>◎</i>
-                        <h3>사용자 중심</h3>
-                        <p>사용자의 니즈를 분석하고 직관적인 인터페이스를 설계합니다.</p>
-                    </article>
-                    <article>
-                        <i>▣</i>
-                        <h3>반응형 웹</h3>
-                        <p>모든 디바이스에서 일관된 경험을 제공하도록 구현합니다.</p>
-                    </article>
-                    <article>
-                        <i>&lt;/&gt;</i>
-                        <h3>클린 코드</h3>
-                        <p>유지보수와 확장성을 고려한 명확한 코드를 작성합니다.</p>
-                    </article>
-                    <article>
-                        <i>↗</i>
-                        <h3>지속적 학습</h3>
-                        <p>새로운 기술을 꾸준히 학습하고 프로젝트에 적용합니다.</p>
-                    </article>
-                </div>
+          <div class="shell reveal">
+            <p class="eyebrow">CONTENT</p>
+            <h2>My Approach</h2>
+            <h3>개발에 임하는 방식과 중요하게 생각하는 가치</h3>
+            <p class="lead">
+              사용자의 입장에서 생각하고, 기술로 가치를 만들어 더 나은 웹 경험을
+              제공하기 위해 노력합니다.
+            </p>
+            <div class="values">
+              <article>
+                <i>◎</i>
+                <h3>사용자 중심</h3>
+                <p>
+                  사용자의 니즈를 분석하고 직관적인 인터페이스를 설계합니다.
+                </p>
+              </article>
+              <article>
+                <i>▣</i>
+                <h3>반응형 웹</h3>
+                <p>모든 디바이스에서 일관된 경험을 제공하도록 구현합니다.</p>
+              </article>
+              <article>
+                <i>&lt;/&gt;</i>
+                <h3>클린 코드</h3>
+                <p>유지보수와 확장성을 고려한 명확한 코드를 작성합니다.</p>
+              </article>
+              <article>
+                <i>↗</i>
+                <h3>지속적 학습</h3>
+                <p>새로운 기술을 꾸준히 학습하고 프로젝트에 적용합니다.</p>
+              </article>
             </div>
+          </div>
         </section>
         <section class="section projects" id="project">
-            <div class="shell reveal">
-                <div class="project-head">
-                    <div>
-                        <p class="eyebrow">PROJECT</p>
-                        <h2>My Works</h2>
-                        <p>직접 기획하고 개발한 프로젝트들입니다.</p>
-                    </div><a class="button" href="https://app.netlify.com/teams/kkydashboard-0-usmmm/projects">전체 프로젝트 보기 →</a>
-                </div>
-                <div class="works" id="works">
-                    <article class="work">
-                        <div class="preview dashboard">
-                            <i></i>
-                            <div>
-                                <b></b><b></b><b></b><span></span>
-                            </div>
-                        </div>
-                        <div class="work-body">
-                            <h3>Dashboard Project</h3>
-                            <p>차트, 메일, 파일 관리 기능을 포함한 웹 대시보드 프로젝트</p>
-                            <small>React</small>
-                            <small>Node.js</small>
-                            <small>Socket.IO</small>
-                            <a href="https://dashboardkky.netlify.app/">자세히 보기 →</a>
-                        </div>
-                    </article>
-                    <article class="work">
-                        <div class="preview phones">
-                            <i></i><i></i><i></i>
-                        </div>
-                        <div class="work-body">
-                            <h3>Toss Clone</h3>
-                            <p>토스 앱을 클론 코딩하여 주식, 쇼핑, 혜택 기능 구현<br>(모바일버전)</p>
-                            <small>React</small>
-                            <small>Zustand</small>
-                            <small>Express</small>
-                            <a href="https://tosscloneweb.netlify.app/Home">자세히 보기 →</a>
-                        </div>
-                    </article>
-                    <article class="work">
-                        <div class="preview coded">
-                            <small>FRONTEND DEVELOPER</small>
-                            <strong>Hello, I'm<br>Kiyun Kim</strong>
-                            <i>&lt;KD /&gt;</i>
-                        </div>
-                        <div class="work-body">
-                            <h3>Portfolio</h3>
-                            <p>개인 포트폴리오 웹사이트 기획 및 디자인, 개발</p>
-                            <small>HTML</small>
-                            <small>CSS</small>
-                            <small>JavaScript</small>
-                            <a href="#home">자세히 보기 →</a>
-                        </div>
-                    </article>
-                </div>
+          <div class="shell reveal">
+            <div class="project-head">
+              <div>
+                <p class="eyebrow">PROJECT</p>
+                <h2>My Works</h2>
+                <p>직접 기획하고 개발한 프로젝트들입니다.</p>
+              </div>
+              <a
+                class="button"
+                href="https://github.com/wellwellgood?tab=repositories"
+                >전체 프로젝트 보기 →</a
+              >
             </div>
+            <div class="works" id="works">
+              <article class="work">
+                <div class="preview dashboard">
+                  <i></i>
+                  <div><b></b><b></b><b></b><span></span></div>
+                </div>
+                <div class="work-body">
+                  <h3>Dashboard Project</h3>
+                  <p>
+                    차트, 메일, 파일 관리 기능을 포함한 웹 대시보드 프로젝트
+                  </p>
+                  <small>React</small>
+                  <small>Node.js</small>
+                  <small>Socket.IO</small>
+                  <a aria-label="Dashboard Project 자세히 보기" href="https://dashboardkky.netlify.app/">자세히 보기 →</a>
+                </div>
+              </article>
+              <article class="work">
+                <div class="preview phones"><i></i><i></i><i></i></div>
+                <div class="work-body">
+                  <h3>Toss Clone</h3>
+                  <p>
+                    토스 앱을 클론 코딩하여 주식, 쇼핑, 혜택 기능 구현<br />(모바일버전)
+                  </p>
+                  <small>React</small>
+                  <small>Zustand</small>
+                  <small>Express</small>
+                  <a aria-label="Toss Clone 자세히 보기" href="https://tosscloneweb.netlify.app/Home"
+                    >자세히 보기 →</a
+                  >
+                </div>
+              </article>
+              <article class="work">
+                <div class="preview coded">
+                  <small>FRONTEND DEVELOPER</small>
+                  <strong>Hello, I'm<br />Kiyun Kim</strong>
+                  <i>&lt;KD /&gt;</i>
+                </div>
+                <div class="work-body">
+                  <h3>Portfolio</h3>
+                  <p>개인 포트폴리오 웹사이트 기획 및 디자인, 개발</p>
+                  <small>HTML</small>
+                  <small>CSS</small>
+                  <small>JavaScript</small>
+                  <a aria-label="포트폴리오 첫 화면 보기" href="#home">자세히 보기 →</a>
+                </div>
+              </article>
+            </div>
+          </div>
         </section>
-    </main>
-    <footer>
-        <div class="shell">
-            <a class="logo" href="#home">KD</a>
-            <p>© 2026 KIM KIYUN. All rights reserved.</p>
-            <div>
-                <a href="https://github.com/wellwellgood?tab=repositories">GH</a>
-                <a href="https://app.notion.com/p/Developer-Designer-PortForio-233d47e489018098aa91c531a112c1c2">Nt</a>
-                <a href="mailto:159pko@naver.com">✉</a>
-            </div>
-        </div>
-    </footer>
+      </main>
+    </div>
     <script src="Web.js"></script>
-</body>
+  </body>
 </html>
