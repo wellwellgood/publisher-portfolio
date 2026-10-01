@@ -42,10 +42,7 @@
   const elements = document.querySelectorAll(".reveal");
   const show = (el) => {
     el.classList.add("visible");
-    el.querySelectorAll("[data-level]").forEach((item) => {
-      const bar = item.querySelector("u");
-      if (bar) bar.style.width = item.dataset.level + "%";
-    });
+
   };
   if (reduced || !("IntersectionObserver" in window)) {
     elements.forEach(show);
@@ -113,4 +110,17 @@
   window.addEventListener('resize', measure, { passive: true });
   if ('ResizeObserver' in window) new ResizeObserver(measure).observe(header);
   if (document.fonts) document.fonts.ready.then(measure);
+})();
+
+
+// Open the implementation notes when a skill link points to the disclosure.
+(() => {
+  const revealDetails = () => {
+    if (location.hash === '#portfolio-details') {
+      const details = document.getElementById('portfolio-details');
+      if (details) details.open = true;
+    }
+  };
+  window.addEventListener('hashchange', revealDetails);
+  revealDetails();
 })();
