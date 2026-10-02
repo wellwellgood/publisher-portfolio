@@ -1,67 +1,52 @@
+// The browser bundle is loaded before this file; no build step is required.
 (() => {
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-  const heading = document.getElementById("hero-heading");
+  const heading = document.getElementById('hero-heading');
   if (!heading) return;
-  heading.querySelectorAll(".heading-line").forEach((line) => {
+  heading.querySelectorAll('.heading-line').forEach(line => {
     const words = line.textContent.trim().split(/\s+/);
-    line.textContent = "";
-    line.setAttribute("aria-hidden", "true");
+    line.textContent = '';
+    line.setAttribute('aria-hidden', 'true');
     words.forEach((text, index) => {
-      const word = document.createElement("span");
-      word.className = "word";
+      const word = document.createElement('span');
+      word.className = 'word';
       word.textContent = text;
       line.appendChild(word);
-      if (index < words.length - 1)
-        line.appendChild(document.createTextNode(" "));
+      if (index < words.length - 1) line.appendChild(document.createTextNode(' '));
     });
   });
-  if (reducedMotion) return;
-  document.body.classList.add("animate");
-  requestAnimationFrame(() =>
-    requestAnimationFrame(() => {
-      heading.querySelectorAll(".word").forEach((word, index) => {
-        setTimeout(
-          () => word.classList.add("is-visible"),
-          100 + index * 120,
-        );
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const words = heading.querySelectorAll('.word');
+  const items = document.querySelectorAll('.load-item');
+  const animations = [];
+  if (window.anime && typeof window.anime.animate === 'function') {
+    try {
+      const { animate, stagger } = window.anime;
+      // Anime.js owns opacity and transform; do not enable the old CSS transitions.
+      animations.push(animate(words, {
+        opacity: [0, 1], y: [24, 0], duration: 700,
+        delay: stagger(120), ease: 'outCubic',
+      }));
+      animations.push(animate(items, {
+        opacity: [0, 1], y: [12, 0], duration: 650,
+        delay: stagger(100, { start: 250 }), ease: 'outCubic',
+      }));
+      return;
+    } catch (error) {
+      animations.forEach(animation => animation.revert());
+      [...words, ...items].forEach(el => {
+        el.style.removeProperty('opacity');
+        el.style.removeProperty('transform');
       });
-      document.querySelectorAll(".load-item").forEach((item, index) => {
-        setTimeout(
-          () => item.classList.add("is-visible"),
-          300 + index * 140,
-        );
-      });
-    }),
-  );
-})();
-
-(() => {
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const elements = document.querySelectorAll(".reveal");
-  const show = (el) => {
-    el.classList.add("visible");
-
-  };
-  if (reduced || !("IntersectionObserver" in window)) {
-    elements.forEach(show);
-    return;
+      console.warn('Anime.js could not start; using the CSS fallback.', error);
+    }
   }
-  document.body.classList.add("js-reveal");
-  const observer = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          show(entry.target);
-          observer.unobserve(entry.target);
-        }
-      }),
-    { threshold: 0.12 },
-  );
-  elements.forEach((el) => observer.observe(el));
+  // A missing library must not disable navigation, video or content visibility.
+  document.body.classList.add('animate');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    words.forEach((word, index) => setTimeout(() => word.classList.add('is-visible'), 100 + index * 120));
+    items.forEach((item, index) => setTimeout(() => item.classList.add('is-visible'), 300 + index * 140));
+  }));
 })();
-
 
 // Honor motion preferences, visibility and autoplay restrictions.
 (() => {
@@ -123,4 +108,46 @@
   };
   window.addEventListener('hashchange', revealDetails);
   revealDetails();
+})();
+
+(() => {
+  const elements = document.querySelectorAll('.reveal')
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    elements.forEach(el => el.classList.add('visible'));
+    return;
+  }
+
+  document.body.classList.add('js-reveal');
+
+  let observer;
+  let resizeTimer;
+
+  const observerElements = () => {
+    observer?.disconnect();
+
+    const margin = Math.round(window.innerHeight * 0.25);
+
+    observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle('visible', entry.isIntersecting);
+      });
+    }, {
+      root: null,
+      rootMargin: `-${margin}px 0px -${margin}px 0px`,
+      threshold: 0,
+    });
+
+    elements.forEach(el => observer.observe(el));
+  };
+
+  observerElements();
+
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(observerElements, 150);
+  }, { passive: true });
 })();

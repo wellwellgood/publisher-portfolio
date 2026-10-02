@@ -378,6 +378,7 @@ dt {
   border: 1px solid var(--line);
   border-radius: 9px;
   background: linear-gradient(145deg, #0a171b, #050d10);
+  transition: 1s all;
 }
 
 .values i {
@@ -392,6 +393,13 @@ dt {
   font-size: 14px;
   color: var(--muted);
   margin-top: 8px;
+}
+
+.values article:hover {
+  transform: translateY(-10px);
+  border: 1px solid var(--mint-border);
+  transition: 0.5s all;
+  background: none !important;
 }
 
 .project-head {
@@ -538,7 +546,7 @@ dt {
 .reveal {
   opacity: 1;
   transform: none;
-  transition: 0.75s;
+  transition: opacity 600ms ease;
 }
 
 .background-video {
@@ -689,12 +697,15 @@ a:focus-visible {
 
 .js-reveal .reveal {
   opacity: 0;
-  transform: translateY(25px);
+  transform: none;
 }
 
 .js-reveal .reveal.visible {
   opacity: 1;
-  transform: none;
+}
+
+.js-reveal .reveal:focus-within {
+  opacity: 1;
 }
 
 .navigation a.active {
@@ -1021,6 +1032,7 @@ a:focus-visible {
   background: var(--surface-card);
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
+  transition: 1s all;
 }
 
 .evidence-card>i {
@@ -1045,6 +1057,12 @@ a:focus-visible {
   align-items: center;
   min-height: 44px;
   font-size: 13px;
+}
+
+.evidence-card:hover {
+  transform: translateY(-5px);
+  border: 1px solid var(--mint-border);
+  transition: 1s all;
 }
 
 .tool-list {
@@ -1206,5 +1224,12 @@ a:focus-visible {
 
   .contact-layout {
     gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .reveal {
+    opacity: 1;
+    transition: none;
   }
 }
