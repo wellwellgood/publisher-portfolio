@@ -101,8 +101,8 @@
 // Open the implementation notes when a skill link points to the disclosure.
 (() => {
   const revealDetails = () => {
-    if (location.hash === '#portfolio-details') {
-      const details = document.getElementById('portfolio-details');
+    if (['#portfolio-details', '#site-implementation-notes'].includes(location.hash)) {
+      const details = document.getElementById(location.hash.slice(1));
       if (details) details.open = true;
     }
   };
