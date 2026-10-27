@@ -1,0 +1,16 @@
+GITERVIEW GitHub integration backend test record
+Date: 2026-10-27 (Asia/Seoul)
+Command: node --test src/serverF/tests/github.test.js
+Result: 3 passed, 0 failed, 0 skipped
+
+PASS: token encryption roundtrip, randomized ciphertext and tamper protection
+PASS: two logged-in users have isolated OAuth states, tokens, dashboards and favorites
+PASS: GitHub client filters private/other-owned repositories and reports partial failures
+
+Scope: Local Node test runner, Express router on loopback, in-memory storage,
+mock GitHub client and mocked external responses. Existing tests were run;
+no new project implementation or frontend tests were added for this record.
+Excluded: production deployment, actual GitHub accounts, actual database,
+browser UI, frontend regression tests, performance and long-running stability.
+
+Test file SHA-256: 9b2938b58e649bc22132c9dd020097a3db58cf9474ce1707384a74beacf24e3c
