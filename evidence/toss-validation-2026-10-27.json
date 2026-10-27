@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-27",
+  "passed": 13,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "switching symbol closes prior connection and removes its data",
+      "status": "passed"
+    },
+    {
+      "name": "late message from previous symbol cannot mutate new screen data",
+      "status": "passed"
+    },
+    {
+      "name": "disconnect reconnects exactly once and accepts fresh messages",
+      "status": "passed"
+    },
+    {
+      "name": "leaving during retry cancels the timer and creates no late connection",
+      "status": "passed"
+    },
+    {
+      "name": "repeated screen entries leave only one connection and no cleanup timers",
+      "status": "passed"
+    },
+    {
+      "name": "malformed and other-symbol messages cannot enter a subscribed series",
+      "status": "passed"
+    },
+    {
+      "name": "out-of-order timestamps do not move chart backwards",
+      "status": "passed"
+    },
+    {
+      "name": "bounded history and unchanged-price behavior remain explicit",
+      "status": "passed"
+    },
+    {
+      "name": "uses caller URL and subscribed symbols",
+      "status": "passed"
+    },
+    {
+      "name": "symbol switch clears old ticks and ignores captured late callback",
+      "status": "passed"
+    },
+    {
+      "name": "disconnect clears heartbeat, reconnects once, and resumes heartbeat",
+      "status": "passed"
+    },
+    {
+      "name": "leaving during reconnect leaves no timer or new connection",
+      "status": "passed"
+    },
+    {
+      "name": "re-entry closes all previous connections and old time cannot replace latest tick",
+      "status": "passed"
+    }
+  ],
+  "baselineChart": {
+    "passed": 2,
+    "failed": 6
+  }
+}

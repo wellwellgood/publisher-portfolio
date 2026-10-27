@@ -1,0 +1,376 @@
+diff --git a/src/hooks/useChartStreams.js b/src/hooks/useChartStreams.js
+index 29c0369..0ee93a9 100644
+--- a/src/hooks/useChartStreams.js
++++ b/src/hooks/useChartStreams.js
+@@ -1,108 +1,88 @@
+-// hooks/useChartStreams.js
+ import { useEffect, useRef, useState } from "react";
+ 
+ function toChartUrl(base, code) {
+-    try {
+-        const u = new URL(base, typeof window !== "undefined" ? window.location.href : "http://localhost");
+-        u.pathname = "/ws";
+-        u.search = `codes=${encodeURIComponent(code)}`;       // 서버가 codes=를 받는 형태와 일치
+-        u.protocol = u.protocol === "https:" ? "wss:" : "ws:";
+-        return u.toString();
+-    } catch {
+-        const root = (base || "").replace(/\/ws(\?.*)?$/, "");
+-        return `${root}/ws/chart?code=${encodeURIComponent(code)}`;
+-    }
+-}
+-
+-// 여러 형식의 가격 키를 안전하게 추출
+-function pickPrice(t = {}) {
+-    const v = t.price ?? t.stck_prpr ?? t.trade_price ?? t.tp ?? t.prc ?? t.c;
+-    const n = Number(v);
+-    return Number.isFinite(n) ? n : null;
++  const url = new URL(base, typeof window !== "undefined" ? window.location.href : "http://localhost");
++  url.pathname = "/ws";
++  url.search = new URLSearchParams({ codes: code }).toString();
++  url.protocol = url.protocol === "https:" || url.protocol === "wss:" ? "wss:" : "ws:";
++  return url.toString();
+ }
+ 
+-// 여러 형식의 시간 키를 안전하게 추출
+-function pickTime(t = {}) {
+-    const v = t.t ?? t.ts ?? t.time ?? t.timestamp;
+-    const n = Number(v);
+-    return Number.isFinite(n) ? n : Date.now();
++function selectTick(message, code) {
++  let value = message;
++  if (value && typeof value === "object" && "data" in value) value = value.data;
++  if (Array.isArray(value)) value = value.find(tick => tick && String(tick.code ?? tick.symbol ?? tick.ticker) === code);
++  if (!value || typeof value !== "object") return null;
++  if (value[code] && typeof value[code] === "object") value = value[code];
++  const symbol = value.code ?? value.symbol ?? value.ticker;
++  if (symbol != null && String(symbol) !== code) return null;
++  const rawPrice = value.price ?? value.stck_prpr ?? value.trade_price ?? value.tp ?? value.prc ?? value.c;
++  if (rawPrice == null || rawPrice === "" || typeof rawPrice === "boolean") return null;
++  const price = Number(rawPrice);
++  const rawTime = value.t ?? value.ts ?? value.time ?? value.timestamp;
++  const t = rawTime == null ? Date.now() : Number(rawTime);
++  if (!Number.isFinite(price) || !Number.isFinite(t) || t <= 0) return null;
++  return { t, price };
+ }
+ 
+ export default function useChartStreams(wsBaseUrl, codes = [], { max = 240, reconnect = true } = {}) {
+-    const wsMapRef = useRef(new Map());  // code -> WebSocket
+-    const seriesRef = useRef(new Map()); // code -> [{t,price}]
+-    const [, setVer] = useState(0);      // 렌더 트리거
+-
+-    function openSocket(code) {
+-        const url = toChartUrl(wsBaseUrl, code);
+-        const ws = new WebSocket(url);
+-        wsMapRef.current.set(code, ws);
+-
+-        ws.onmessage = (e) => {
+-            try {
+-                let msg = JSON.parse(String(e.data || "{}"));
+-
+-                // 래퍼 해제: { data: ... }
+-                if (msg && typeof msg === "object" && "data" in msg) msg = msg.data;
+-
+-                // 배열로 오면 해당 code를 우선 선택
+-                if (Array.isArray(msg)) {
+-                    msg = msg.find(x => x && (x.code === code || x.symbol === code || x.ticker === code)) || msg[0] || {};
+-                }
+-
+-                // 맵 형태 { [code]: tick } 지원
+-                if (!Array.isArray(msg) && msg && typeof msg === "object" && !("price" in msg) && (msg[code])) {
+-                    msg = msg[code];
+-                }
+-
+-                const p = pickPrice(msg);
+-                if (p == null) return;
+-                const t = pickTime(msg);
+-
+-                const arr = seriesRef.current.get(code) || [];
+-                if (!arr.length || arr[arr.length - 1].price !== p) {
+-                    const next = [...arr, { t, price: p }];
+-                    if (next.length > max) next.splice(0, next.length - max);
+-                    seriesRef.current.set(code, next);
+-                    setVer(v => v + 1);
+-                }
+-            } catch { /* ignore parse errors */ }
+-        };
+-
+-        ws.onclose = () => {
+-            if (reconnect && codes.includes(code)) {
+-                setTimeout(() => {
+-                    if (codes.includes(code) && wsMapRef.current.get(code) === ws) openSocket(code);
+-                }, 1000);
+-            }
+-        };
++  const seriesRef = useRef(new Map());
++  const [, setVersion] = useState(0);
++  const codesKey = JSON.stringify([...new Set(codes.filter(Boolean).map(String))]);
++  const limit = Number.isFinite(max) && max > 0 ? Math.floor(max) : 240;
++
++  useEffect(() => {
++    const wanted = new Set(JSON.parse(codesKey));
++    const sessions = new Map();
++    let disposed = false;
++    for (const code of seriesRef.current.keys()) {
++      if (!wanted.has(code)) seriesRef.current.delete(code);
+     }
+-
+-    function closeSocket(code) {
+-        const ws = wsMapRef.current.get(code);
+-        if (ws) {
+-            try { ws.close(); } catch { }
+-            wsMapRef.current.delete(code);
+-        }
++    for (const [code, points] of seriesRef.current) {
++      if (points.length > limit) seriesRef.current.set(code, points.slice(-limit));
+     }
+-
+-    useEffect(() => {
+-        const want = new Set((codes || []).filter(Boolean));
+-
+-        // 불필요한 소켓 정리
+-        for (const c of Array.from(wsMapRef.current.keys())) {
+-            if (!want.has(c)) closeSocket(c);
+-        }
+-        // 신규 구독
+-        for (const c of want) {
+-            if (!wsMapRef.current.has(c)) openSocket(c);
+-        }
+-
+-        return () => {
+-            for (const c of Array.from(wsMapRef.current.keys())) closeSocket(c);
+-        };
+-        // eslint-disable-next-line react-hooks/exhaustive-deps
+-    }, [wsBaseUrl, JSON.stringify(codes), max, reconnect]);
+-
+-    return seriesRef.current; // Map<code, Array<{t,price}>>
++    setVersion(version => version + 1);
++
++    function open(code) {
++      if (disposed || !wanted.has(code)) return;
++      let socket;
++      try { socket = new WebSocket(toChartUrl(wsBaseUrl, code)); }
++      catch { return; }
++      const session = { socket, retry: null };
++      sessions.set(code, session);
++      const active = () => !disposed && sessions.get(code) === session;
++      socket.onmessage = event => {
++        if (!active() || socket.readyState !== WebSocket.OPEN) return;
++        try {
++          const point = selectTick(JSON.parse(String(event.data || "{}")), code);
++          if (!point) return;
++          const points = seriesRef.current.get(code) || [];
++          const last = points[points.length - 1];
++          if (last && (point.t < last.t || point.price === last.price)) return;
++          seriesRef.current.set(code, [...points, point].slice(-limit));
++          setVersion(version => version + 1);
++        } catch { /* Ignore malformed frames; keep the last valid series. */ }
++      };
++      socket.onclose = () => {
++        if (!active() || !reconnect || session.retry !== null) return;
++        session.retry = setTimeout(() => {
++          session.retry = null;
++          if (active()) open(code);
++        }, 1000);
++      };
++    }
++    if (wsBaseUrl) wanted.forEach(open);
++    return () => {
++      disposed = true;
++      for (const { socket, retry } of sessions.values()) {
++        if (retry !== null) clearTimeout(retry);
++        socket.onmessage = null;
++        socket.onclose = null;
++        socket.onerror = null;
++        try { socket.close(); } catch { /* Already closed. */ }
++      }
++      sessions.clear();
++    };
++  }, [wsBaseUrl, codesKey, limit, reconnect]);
++  return seriesRef.current;
+ }
+diff --git a/src/hooks/useLiveTicks.js b/src/hooks/useLiveTicks.js
+index 2329b5d..1ec9431 100644
+--- a/src/hooks/useLiveTicks.js
++++ b/src/hooks/useLiveTicks.js
+@@ -1,96 +1,88 @@
+-import { useEffect, useRef, useState } from "react";
+-
+-function withCodes(url, codes) {
+-    if (!codes?.length) return url;
+-    const sep = url.includes("?") ? "&" : "?";
+-    return `${url}${sep}codes=${encodeURIComponent(codes.join(","))}`;
+-}
++import { useEffect, useState } from "react";
+ 
+ export default function useLiveTicks(wsUrl, { codes = [], reconnect = true, pingInterval = 3000 } = {}) {
+-    const [ticks, setTicks] = useState({});
+-    const wsRef = useRef(null);
+-    const tRef = useRef({ ping: null, retry: null, delay: 5000 });
+-
+-    useEffect(() => {
+-        if (!codes?.length) return;
+-
+-        if (!wsUrl) {
+-            console.error("[WS] VITE_WS_URL missing");
+-            return;
+-        }
+-        if (!codes?.length) return;
+-        const u = new URL(import.meta.env.VITE_WS_URL, window.location.href);
+-        if (u.protocol === "http:")  u.protocol = "ws:";
+-        if (u.protocol === "https:") u.protocol = "wss:";
+-        u.searchParams.set("codes", codes.join(","));
+-        const url = u.toString();
+-        
+-        console.log("[WS URL]", url, { codes });
+-
+-        let closed = false;
+-
+-        function open() {
+-            clearTimeout(tRef.current.retry);
+-            const ws = new WebSocket(url);
+-            wsRef.current = ws;
+-
+-            ws.onopen = () => {
+-                console.log("[WS OPEN]");
+-                if (pingInterval) {
+-                    clearInterval(tRef.current.ping);
+-                    tRef.current.ping = setInterval(() => {
+-                        try {
+-                            if (ws.readyState === WebSocket.OPEN) ws.send('{"type":"ping"}');
+-                        } catch { }
+-                    }, pingInterval);
+-                }
+-            };
+-
+-            ws.onmessage = (e) => {
+-                try {
+-                    let msg = JSON.parse(String(e.data || ""));
+-                    if (msg && typeof msg === "object" && "data" in msg) msg = msg.data;
+-                    const now = Date.now();
+-                    const obj = Array.isArray(msg)
+-                        ? Object.fromEntries(
+-                            (msg || [])
+-                            .filter(x => x && x.code)
+-                            .map(x => [x.code, { ...x, ts: Number(x.ts ?? x.t ?? x.time ?? x.timestamp ?? now) }])
+-                        )
+-                        : Object.fromEntries(
+-                            Object.entries(msg || {}).map(
+-                                ([k, v]) => [k, { ...v, ts: Number(v?.ts ?? v?.t ?? v?.time ?? v?.timestamp ?? now) }]
+-                            )
+-                        );
+-                    if (obj && typeof obj === "object") {
+-                        setTicks((prev) => ({ ...prev, ...obj }));
+-                    }
+-                } catch { }
+-            };
+-
+-            ws.onerror = (e) => { console.log("[WS ERROR]", e); };
+-
+-            ws.onclose = (e) => {
+-                console.log("[WS CLOSE]", e.code, e.reason);
+-                clearInterval(tRef.current.ping);
+-                if (!closed && reconnect) {
+-                    tRef.current.retry = setTimeout(() => {
+-                        tRef.current.delay = Math.min((tRef.current.delay || 5000) * 1.8, 5000);
+-                        open();
+-                    }, tRef.current.delay || 5000);
+-                }
+-            };
+-        }
+-
+-        open();
+-
+-        return () => {
+-            closed = true;
+-            clearInterval(tRef.current.ping);
+-            clearTimeout(tRef.current.retry);
+-            try { wsRef.current?.close(); } catch { }
+-        };
+-    }, [wsUrl, JSON.stringify(codes), reconnect, pingInterval]);
+-
+-    return ticks;
++  const [ticks, setTicks] = useState({});
++  const codesKey = JSON.stringify([...new Set(codes.filter(Boolean).map(String))]);
++  useEffect(() => {
++    const wanted = new Set(JSON.parse(codesKey));
++    setTicks({});
++    if (!wsUrl || !wanted.size) return;
++    let disposed = false;
++    let current = null;
++    let retry = null;
++    let heartbeat = null;
++    const clearHeartbeat = () => { if (heartbeat !== null) clearInterval(heartbeat); heartbeat = null; };
++    let url;
++    try {
++      const target = new URL(wsUrl, window.location.href);
++      target.protocol = target.protocol === "https:" || target.protocol === "wss:" ? "wss:" : "ws:";
++      target.searchParams.set("codes", [...wanted].join(","));
++      url = target.toString();
++    } catch { return; }
++    function open() {
++      if (disposed) return;
++      let socket;
++      try { socket = new WebSocket(url); } catch { return; }
++      current = socket;
++      const active = () => !disposed && current === socket;
++      socket.onopen = () => {
++        if (!active()) return;
++        clearHeartbeat();
++        if (pingInterval > 0) heartbeat = setInterval(() => {
++          if (active() && socket.readyState === WebSocket.OPEN) {
++            try { socket.send('{"type":"ping"}'); } catch { /* Connection is closing. */ }
++          }
++        }, pingInterval);
++      };
++      socket.onmessage = event => {
++        if (!active() || socket.readyState !== WebSocket.OPEN) return;
++        try {
++          let value = JSON.parse(String(event.data || ""));
++          if (value && typeof value === "object" && "data" in value) value = value.data;
++          const entries = Array.isArray(value)
++            ? value.filter(tick => tick && tick.code != null).map(tick => [String(tick.code), tick])
++            : value && typeof value === "object" && value.code != null
++              ? [[String(value.code), value]]
++              : Object.entries(value || {});
++          const next = {};
++          for (const [code, tick] of entries) {
++            if (!wanted.has(code) || !tick || typeof tick !== "object") continue;
++            const raw = tick.ts ?? tick.t ?? tick.time ?? tick.timestamp;
++            const ts = raw == null ? Date.now() : Number(raw);
++            if (Number.isFinite(ts) && ts > 0) next[code] = { ...tick, ts };
++          }
++          if (!Object.keys(next).length) return;
++          setTicks(previous => {
++            const merged = { ...previous };
++            for (const [code, tick] of Object.entries(next)) {
++              if (!merged[code] || tick.ts >= merged[code].ts) merged[code] = tick;
++            }
++            return merged;
++          });
++        } catch { /* Invalid frames do not replace valid state. */ }
++      };
++      socket.onclose = () => {
++        if (!active()) return;
++        clearHeartbeat();
++        if (reconnect && retry === null) retry = setTimeout(() => {
++          retry = null;
++          if (active()) open();
++        }, 5000);
++      };
++    }
++    open();
++    return () => {
++      disposed = true;
++      if (retry !== null) clearTimeout(retry);
++      clearHeartbeat();
++      if (current) {
++        current.onopen = null;
++        current.onmessage = null;
++        current.onclose = null;
++        current.onerror = null;
++        try { current.close(); } catch { /* Already closed. */ }
++      }
++    };
++  }, [wsUrl, codesKey, reconnect, pingInterval]);
++  return ticks;
+ }

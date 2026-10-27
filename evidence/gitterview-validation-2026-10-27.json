@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-27",
+  "passed": 8,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "pending request displays loading and disables connection action",
+      "status": "passed"
+    },
+    {
+      "name": "failed dashboard request shows error without demo repositories",
+      "status": "passed"
+    },
+    {
+      "name": "unconnected account gets connection guidance without dashboard fetch",
+      "status": "passed"
+    },
+    {
+      "name": "empty successful response shows empty state instead of error",
+      "status": "passed"
+    },
+    {
+      "name": "search matches name and description case-insensitively",
+      "status": "passed"
+    },
+    {
+      "name": "language and favorites combine with search, then reset correctly",
+      "status": "passed"
+    },
+    {
+      "name": "failed favorite save retains prior selection and enables retry",
+      "status": "passed"
+    },
+    {
+      "name": "late dashboard response after unmount does not update another mount",
+      "status": "passed"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-27",
+  "gitterviewSource": "893a64fef599f8369dc6ecddfc02fe5a49fae7dabef019350aa0f553b626716c",
+  "tossChart": "3ebe5c4b335a7792147806641a23e7757d76b58da395988dced66ad7f41e3e15",
+  "tossTicks": "7c5234c83dea3d0e9ccf2426b4e6e46558f2ea52c592749a5026ffe62932c108",
+  "scope": "React DOM/jsdom UI tests; React hook tests with deterministic sockets/timers; real browser with local WebSocket server. No live KIS/production/long-run/performance/user testing."
+}
