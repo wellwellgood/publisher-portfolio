@@ -1,6 +1,6 @@
 # 김기윤 | React 프론트엔드 개발자 포트폴리오
 
-아이보리·베이지 톤의 개인 포트폴리오입니다. 첫 화면 → 프로젝트 → 기술 → 소개 → 구현 노트 → 연락 순서로 구성했습니다.
+어두운 차콜 배경에 프로필 사진 파티클을 얹은 개인 포트폴리오입니다. 첫 화면 → 프로젝트 → 기술 → 소개 → 구현 노트 → 연락 순서로 구성했습니다.
 
 ## 프로젝트 소개
 
@@ -14,18 +14,18 @@
 
 폴더에서 `python3 -m http.server 8000`을 실행하고 `http://localhost:8000`으로 접속합니다. VS Code Live Server로도 확인할 수 있습니다.
 
-배포 시 `index.html`, `Web.html`, `Web.css`, `Web.js`, `liquid.js`, `projects/`, `img/`, `media/`, `vendor/`를 동일한 상대 경로로 업로드합니다. 별도 빌드나 패키지 설치가 필요하지 않습니다.
+배포 시 `index.html`, `Web.html`, `Web.css`, `Web.js`, `particles.js`, `projects/`, `img/`, `vendor/`를 동일한 상대 경로로 업로드합니다. 별도 빌드나 패키지 설치가 필요하지 않습니다.
 
 ## 파일
 
 - `index.html`, `Web.html`: 동일한 개인 포트폴리오 진입 페이지
 - `projects/gitterview.html`, `projects/toss-clone.html`: 프로젝트별 상세 설명
 - `Web.css`: 메인과 상세 페이지가 공유하는 색상·타이포·반응형 스타일
-- `Web.js`: 제목 애니메이션, 영상 재생 제어, 헤더 높이 반영, 구현 노트 열기
-- `liquid.js`: 영상 위 WebGL 마우스 왜곡. 지원 불가 시 원본 영상 유지
+- `Web.js`: 제목 애니메이션, 헤더 높이 반영, 구현 노트 열기
+- `particles.js`: 프로필 사진을 WebGL 파티클로 그리고 스크롤에 따라 구·물결·구름으로 변형. 지원 불가 시 캔버스 제거
 - `img/projects/`: 실제 실행 화면 WebP와 Toss 실행 주소 QR 코드
 - `img/og-portfolio.png`, `img/favicon.svg`: 공유 미리보기와 파비콘
-- `media/`, `vendor/`: 영상·포스터와 로컬 Anime.js
+- `vendor/`: 로컬 Anime.js
 
 글꼴은 운영체제의 시스템 글꼴을 사용합니다. 기존 Tailwind CDN과 Devicon, Google Fonts 의존성을 제거했습니다.
 
@@ -33,9 +33,9 @@
 
 - 본문 바로가기, 시각적 키보드 포커스, 이미지 설명 제공
 - 헤더 실제 높이에 따라 앵커 이동 여백 계산
-- 모션 감소 설정에서는 영상 대신 포스터 표시
-- 영상은 첫 화면이 보이는 동안에만 재생하고 숨겨진 탭에서는 일시정지
-- 터치 중심 기기 및 모션 감소 설정에서는 Liquid 효과 비활성화
+- 모션 감소 설정에서는 움직이지 않는 사진 파티클만 표시
+- 탭이 숨겨지면 파티클 렌더링 중지
+- 마우스로 점을 밀어내는 효과는 정밀한 포인터에서만 동작
 
 ## 콘텐츠 유지 기준
 

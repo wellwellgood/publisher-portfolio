@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f0e8" />
+    <meta name="theme-color" content="#222124" />
     <title>김기윤 | React 프론트엔드 개발자 포트폴리오</title>
     <meta
       name="description"
@@ -35,8 +35,13 @@
     <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="Web.css" />
   </head>
-  <body>
+    <body>
     <a class="skip-link" href="#main-content">본문으로 바로가기</a>
+    <canvas
+      class="particle-scene"
+      aria-hidden="true"
+      data-portrait="img/profill.png"
+    ></canvas>
     <header class="site-header">
       <a
         class="wordmark"
@@ -55,26 +60,17 @@
     </header>
     <div class="page">
       <main id="main-content">
-        <div class="hero-frame" id="home">
-          <video
-            poster="media/kiyun-studio-poster.png"
-            class="background-video"
-            loop
-            muted
-            playsinline
-            preload="metadata"
-            aria-hidden="true"
-            tabindex="-1"
-          >
-            <source
-              src="media/kiyun-studio-knight-rider-mint.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div class="video-shade" aria-hidden="true"></div>
+        <div
+          class="hero-frame"
+          id="home"
+          data-particle-shape="portrait"
+          data-particle-y="-0.04"
+          data-particle-alpha="1"
+        >
+          <p class="hero-side hero-name load-item">Kim Kiyun</p>
+          <p class="hero-side hero-role load-item">Frontend Developer</p>
           <div class="landing-main">
             <section aria-labelledby="hero-heading">
-              <p class="eyebrow load-item">FRONTEND DEVELOPER · KIM KIYUN</p>
               <h1
                 id="hero-heading"
                 aria-label="React로 화면과 데이터를 연결합니다."
@@ -105,6 +101,8 @@
         <section
           class="section projects"
           id="project"
+          data-particle-shape="wave"
+          data-particle-alpha="0.45"
           aria-labelledby="projects-heading"
         >
           <div class="shell">
@@ -276,7 +274,8 @@
                   </p>
                   <p>
                     HTML·CSS·JavaScript로 이 포트폴리오를 구성했습니다. 반응형
-                    배치, 고정 헤더, 영상과 마우스 인터랙션을 구현했습니다.
+                    배치, 고정 헤더, 스크롤에 반응하는 WebGL 파티클을
+                    구현했습니다.
                   </p>
                   <div class="project-tags" aria-label="사용 기술">
                     <span>HTML</span><span>CSS</span><span>JavaScript</span
@@ -286,7 +285,8 @@
                     <span>구현 포인트</span>
                     <p>
                       헤더의 실제 높이를 측정해 섹션 이동에 반영하고, 동작
-                      줄이기와 영상 재생 상태를 제어했습니다.
+                      줄이기 설정과 탭 표시 여부에 따라 파티클 애니메이션을
+                      제어했습니다.
                     </p>
                   </div>
                   <details class="project-process" id="portfolio-details">
@@ -294,20 +294,21 @@
                     <div>
                       <h4>문제</h4>
                       <p>
-                        고정 헤더가 제목을 가리거나, 보이지 않는 영상이 계속
-                        재생되는 문제가 생길 수 있습니다.
+                        고정 헤더가 제목을 가리거나, 보이지 않는 탭에서도
+                        애니메이션이 계속 그려지는 문제가 생길 수 있습니다.
                       </p>
                       <h4>해결 방법</h4>
                       <p>
-                        헤더 높이를 ResizeObserver로 반영하고, 화면 표시 여부와
-                        모션 설정에 따라 영상을 제어했습니다. 카드 펼침 상태와
-                        높이도 각각 분리했습니다.
+                        헤더 높이를 ResizeObserver로 반영하고, 탭 표시 여부와
+                        모션 설정에 따라 파티클 렌더링을 멈추거나
+                        정지 화면으로 바꿨습니다. 카드 펼침 상태와 높이도 각각
+                        분리했습니다.
                       </p>
                       <h4>현재 결과</h4>
                       <p>
-                        섹션 이동 시 제목 여백이 유지되고, 첫 화면을 벗어나면
-                        영상이 일시정지됩니다. 각 프로젝트의 설명은 다른 카드에
-                        영향을 주지 않고 열립니다.
+                        섹션 이동 시 제목 여백이 유지되고, 탭이 숨겨지면
+                        파티클 렌더링이 멈춥니다. 각 프로젝트의 설명은 다른
+                        카드에 영향을 주지 않고 열립니다.
                       </p>
                     </div>
                   </details>
@@ -327,6 +328,9 @@
         <section
           class="section skills"
           id="skill"
+          data-particle-shape="sphere"
+          data-particle-x="0.26"
+          data-particle-alpha="0.55"
           aria-labelledby="skills-heading"
         >
           <div class="shell">
@@ -387,6 +391,8 @@
         <section
           class="section approach"
           id="content"
+          data-particle-shape="cloud"
+          data-particle-alpha="0.45"
           aria-labelledby="approach-heading"
         >
           <div class="shell">
@@ -450,6 +456,9 @@
         <section
           class="section profile"
           id="profile"
+          data-particle-shape="portrait"
+          data-particle-x="-0.27"
+          data-particle-alpha="0.5"
           aria-labelledby="about-heading"
         >
           <div class="shell profile-grid">
@@ -502,7 +511,12 @@
             </div>
           </div>
         </section>
-        <section class="section site-notes" aria-labelledby="notes-heading">
+        <section
+          class="section site-notes"
+          aria-labelledby="notes-heading"
+          data-particle-shape="wave"
+          data-particle-alpha="0.4"
+        >
           <div class="shell notes-layout">
             <div>
               <p class="eyebrow">BEHIND THIS WEBSITE</p>
@@ -523,17 +537,19 @@
                   감지합니다. 측정값을 스크롤 여백에 적용해 제목이 헤더 아래에
                   가려지지 않게 했습니다.
                 </p>
-                <h3>영상과 Liquid 효과</h3>
+                <h3>프로필 사진 파티클</h3>
                 <p>
-                  영상은 첫 화면에서만 재생하고, 탭이 숨겨지면 일시정지합니다.
-                  마우스 주변 왜곡은 별도 WebGL 캔버스로 처리하며, 실패하면 원래
-                  영상을 표시합니다.
+                  프로필 사진의 밝기와 윤곽을 분석해 점의 위치를 정하고, 하나의
+                  WebGL 캔버스에서 그립니다. 스크롤하면 섹션마다 지정한 구·물결·
+                  구름 모양으로 바뀌며, WebGL을 쓸 수 없으면 캔버스를 제거하고
+                  본문만 표시합니다.
                 </p>
                 <h3>모션과 입력 방식</h3>
                 <p>
-                  동작 줄이기 설정에서는 영상 대신 포스터를 사용합니다. 터치
-                  중심 기기에는 Liquid 효과를 적용하지 않습니다. 본문 바로가기와
-                  키보드 포커스 표시를 제공합니다.
+                  동작 줄이기 설정에서는 움직이지 않는 사진 파티클만 표시하고,
+                  탭이 숨겨지면 렌더링을 멈춥니다. 마우스 주변 점 밀어내기는
+                  정밀한 포인터에서만 동작합니다. 본문 바로가기와 키보드 포커스
+                  표시를 제공합니다.
                 </p>
                 <h3>검토 피드백 반영 · 2026.10.27</h3><p>연속 실무 경력으로 읽힐 수 있는 기간 표기를 제거하고, 프로젝트별 구현·검증·향후 과제를 나눴습니다. GITERVIEW의 기존 백엔드 테스트 3개 통과 기록을 연결했습니다.</p><h3>의존성과 검증 범위</h3>
                 <p>
@@ -553,6 +569,9 @@
         <section
           class="section contact-section"
           id="contact"
+          data-particle-shape="sphere"
+          data-particle-x="0.28"
+          data-particle-alpha="0.75"
           aria-labelledby="contact-heading"
         >
           <div class="shell contact-layout">
@@ -579,6 +598,6 @@
     </div>
     <script src="vendor/anime-4.5.0.umd.min.js"></script>
     <script src="Web.js"></script>
-    <script src="liquid.js"></script>
+    <script src="particles.js"></script>
   </body>
 </html>
